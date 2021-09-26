@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.7.6;
 
 import "./Mintable.sol";
 import "./Pausable.sol";
@@ -12,8 +12,8 @@ import "./Ownable.sol";
 * @notice ERC-20 standard with extra functionality of Pausing and Minting.
 */
 contract USDC is Pausable, Mintable{
-    string public name = "USDC";
-    string public symbol = "USDC";
+    string constant public name = "USDC";
+    string constant public symbol = "USDC";
     uint8 public decimals;
     uint256 public totalSupply;
     mapping (address => uint256) public balanceOf;
@@ -31,58 +31,60 @@ contract USDC is Pausable, Mintable{
         uint256 _value
     );
 
-    constructor(uint8 _decimals, uint256 _initialSupply){
+    constructor(uint8 decimalsPassed, uint256 initialSupply){
 
-        decimals = _decimals;
-        totalSupply = _initialSupply;
-        balanceOf[msg.sender] = _initialSupply;
+        decimals = decimalsPassed;
+        totalSupply = initialSupply;
+        balanceOf[msg.sender] = initialSupply;
         owner = msg.sender;
 
     }
 
     function transfer(
-        address _to, 
-        uint256 _value
-    ) public pauseLock returns (bool sucess){
+        address to, 
+        uint256 value
+    ) external pauseLock returns (bool sucess){
 
-        balanceOf[msg.sender] -= _value;
-        balanceOf[_to] += _value;  
+        require(balanceOf[msg.sender] >= value, "Insufficient Balance");
+
+        balanceOf[msg.sender] -= value;
+        balanceOf[to] += value;  
 
         return true;
     }
 
     function transferFrom(
-        address _from, 
-        address _to, 
+        address from, 
+        address to, 
         uint256 value
-    ) public pauseLock returns (bool success){
+    ) external pauseLock returns (bool success){
 
-        require(allowance[_from][msg.sender] >= value, "Unapproved tx");
+        require(allowance[from][msg.sender] >= value, "Unapproved tx");
 
-        allowance[_from][msg.sender] -= value;
-        balanceOf[_from] -= value;
-        balanceOf[_to] += value;
+        allowance[from][msg.sender] -= value;
+        balanceOf[from] -= value;
+        balanceOf[to] += value;
        
         return true;   
     }
 
     function approve(
-        address _spender, 
+        address spender, 
         uint256 value
-    ) public pauseLock returns (bool success) {
+    ) external pauseLock returns (bool success) {
 
-        allowance[msg.sender][_spender] += value;
+        allowance[msg.sender][spender] += value;
 
         return true;
     }
 
     function mintCoins(
-        address _to,
-        uint256 _amount
+        address to,
+        uint256 amount
     ) external override onlyOwner returns(bool success){
-
-        totalSupply += _amount;
-        balanceOf[_to] += _amount;
+        require(totalSupply + amount > totalSupply, "Overflow");
+        totalSupply += amount;
+        balanceOf[to] += amount;
 
         return true;
     }

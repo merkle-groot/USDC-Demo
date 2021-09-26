@@ -54,10 +54,10 @@ describe("USDC Contract", function(){
 
         it("Should fail if sender doesn't have enough balance", async function(){
 
-            await expect(hardhatUSDC.transfer(addr1.address,1000000001)).to.be.revertedWith("");
+            await expect(hardhatUSDC.transfer(addr1.address,1000000001)).to.be.revertedWith("Insufficient Balance");
 
             await hardhatUSDC.transfer(addr1.address, 1000);
-            await expect(hardhatUSDC.connect(addr1).transfer(addr2.address, 1002)).to.be.revertedWith("");
+            await expect(hardhatUSDC.connect(addr1).transfer(addr2.address, 1002)).to.be.revertedWith("Insufficient Balance");
         
         });
 
@@ -94,7 +94,7 @@ describe("USDC Contract", function(){
             const approvedValue = await hardhatUSDC.allowance(owner.address, addr1.address);
             expect(approvedValue).to.be.equal(1000);
 
-            await expect(hardhatUSDC.connect(addr1).transferFrom(owner.address, addr2.address, 1001)).to.be.revertedWith("");
+            await expect(hardhatUSDC.connect(addr1).transferFrom(owner.address, addr2.address, 1001)).to.be.revertedWith("Unapproved tx");
 
         });
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity 0.7.6;
 
 import "./Ownable.sol";
 
@@ -8,7 +8,7 @@ contract Pausable is Ownable{
 
 
     modifier pauseLock(){
-        require(isPaused == false, "SC is Paused");
+        require(!isPaused, "SC is Paused");
         _;
     }
 
