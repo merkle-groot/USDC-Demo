@@ -1,12 +1,12 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/punkster21/Projects/USDC-Demo/contracts/Mintable.sol": {
-      "lastModificationDate": 1632637798588,
-      "contentHash": "906dad3242918fd70537a13bf04ab12e",
-      "sourceName": "contracts/Mintable.sol",
+    "/home/punkster21/Projects/USDC-Demo/contracts/interfaces/IERC20.sol": {
+      "lastModificationDate": 1632738857718,
+      "contentHash": "d96617dd14e98af6acec9fe7290db57a",
+      "sourceName": "contracts/interfaces/IERC20.sol",
       "solcConfig": {
-        "version": "0.7.6",
+        "version": "0.8.0",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -29,18 +29,161 @@
       },
       "imports": [],
       "versionPragmas": [
-        "0.7.6"
+        "0.8.0"
       ],
       "artifacts": [
-        "Mintable"
+        "IERC20"
+      ]
+    },
+    "/home/punkster21/Projects/USDC-Demo/contracts/StakingContract.sol": {
+      "lastModificationDate": 1632763480796,
+      "contentHash": "d2220084a0ec49cd3a96767aae03804f",
+      "sourceName": "contracts/StakingContract.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./interfaces/IERC20.sol",
+        "./libraries/SafeERC20.sol",
+        "./Ownable.sol"
+      ],
+      "versionPragmas": [
+        "0.8.0"
+      ],
+      "artifacts": [
+        "StakingContract"
+      ]
+    },
+    "/home/punkster21/Projects/USDC-Demo/contracts/libraries/SafeERC20.sol": {
+      "lastModificationDate": 1632738856754,
+      "contentHash": "f2a26bf75505d7cead403d2da00dedaf",
+      "sourceName": "contracts/libraries/SafeERC20.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../interfaces/IERC20.sol",
+        "./Address.sol"
+      ],
+      "versionPragmas": [
+        "0.8.0"
+      ],
+      "artifacts": [
+        "SafeERC20"
+      ]
+    },
+    "/home/punkster21/Projects/USDC-Demo/contracts/Ownable.sol": {
+      "lastModificationDate": 1632764200515,
+      "contentHash": "d7e6eda4fd71789b46cdc1deae13225f",
+      "sourceName": "contracts/Ownable.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.8.0"
+      ],
+      "artifacts": [
+        "Ownable"
+      ]
+    },
+    "/home/punkster21/Projects/USDC-Demo/contracts/libraries/Address.sol": {
+      "lastModificationDate": 1632739029010,
+      "contentHash": "8584320a0d9aaa6ef8b691aa87cbe5bc",
+      "sourceName": "contracts/libraries/Address.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.8.0"
+      ],
+      "artifacts": [
+        "Address"
       ]
     },
     "/home/punkster21/Projects/USDC-Demo/contracts/USDC.sol": {
-      "lastModificationDate": 1632728321501,
-      "contentHash": "5ccb2adeeddc3380854c05d34ea14cd3",
+      "lastModificationDate": 1632764411809,
+      "contentHash": "4ef176869697eb4dc9742b2df2395bd7",
       "sourceName": "contracts/USDC.sol",
       "solcConfig": {
-        "version": "0.7.6",
+        "version": "0.8.0",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -63,22 +206,55 @@
       },
       "imports": [
         "./Mintable.sol",
-        "./Pausable.sol",
-        "./Ownable.sol"
+        "./Pausable.sol"
       ],
       "versionPragmas": [
-        "0.7.6"
+        "0.8.0"
       ],
       "artifacts": [
         "USDC"
       ]
     },
+    "/home/punkster21/Projects/USDC-Demo/contracts/Mintable.sol": {
+      "lastModificationDate": 1632763661112,
+      "contentHash": "4dfb1d84483bf5bb719d51b550518794",
+      "sourceName": "contracts/Mintable.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.8.0"
+      ],
+      "artifacts": [
+        "Mintable"
+      ]
+    },
     "/home/punkster21/Projects/USDC-Demo/contracts/Pausable.sol": {
-      "lastModificationDate": 1632637803431,
-      "contentHash": "61d53f3650bcd90b06e12179de5b6c06",
+      "lastModificationDate": 1632764133776,
+      "contentHash": "89f87886ade2112dc4c8e268b99b3abe",
       "sourceName": "contracts/Pausable.sol",
       "solcConfig": {
-        "version": "0.7.6",
+        "version": "0.8.0",
         "settings": {
           "optimizer": {
             "enabled": false,
@@ -103,149 +279,10 @@
         "./Ownable.sol"
       ],
       "versionPragmas": [
-        "0.7.6"
+        "0.8.0"
       ],
       "artifacts": [
         "Pausable"
-      ]
-    },
-    "/home/punkster21/Projects/USDC-Demo/contracts/Ownable.sol": {
-      "lastModificationDate": 1632638674246,
-      "contentHash": "18cadbc3e28ee88500d8ef52a5255ebe",
-      "sourceName": "contracts/Ownable.sol",
-      "solcConfig": {
-        "version": "0.7.6",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "0.7.6"
-      ],
-      "artifacts": [
-        "Ownable"
-      ]
-    },
-    "/home/punkster21/Projects/USDC-Demo/contracts/interfaces/IUSDC.sol": {
-      "lastModificationDate": 1632644100851,
-      "contentHash": "fccd3edd349b11b5cf1daaa674409e42",
-      "sourceName": "contracts/interfaces/IUSDC.sol",
-      "solcConfig": {
-        "version": "0.7.6",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "0.7.6"
-      ],
-      "artifacts": [
-        "IUSDC"
-      ]
-    },
-    "/home/punkster21/Projects/USDC-Demo/contracts/StakingContract.sol": {
-      "lastModificationDate": 1632728510781,
-      "contentHash": "d93ab85e2309383a4034e05fb2b979e4",
-      "sourceName": "contracts/StakingContract.sol",
-      "solcConfig": {
-        "version": "0.7.6",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./interfaces/IUSDC.sol",
-        "./Ownable.sol"
-      ],
-      "versionPragmas": [
-        "0.7.6"
-      ],
-      "artifacts": [
-        "StakingContract"
-      ]
-    },
-    "/home/punkster21/Projects/USDC-Demo/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1632574334084,
-      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
-      "sourceName": "hardhat/console.sol",
-      "solcConfig": {
-        "version": "0.7.6",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.4.22 <0.9.0"
-      ],
-      "artifacts": [
-        "console"
       ]
     }
   }
