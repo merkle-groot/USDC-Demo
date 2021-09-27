@@ -14,7 +14,7 @@ describe("USDC Contract", function(){
         USDC = await ethers.getContractFactory("USDC");
         [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
-        hardhatUSDC = await USDC.deploy(18, 1000000000);
+        hardhatUSDC = await USDC.deploy(2.7*10**13);
 
     });
 
@@ -38,63 +38,63 @@ describe("USDC Contract", function(){
     describe("Transactions", function(){
         it("Should be able to send tokens between accounts", async function(){
 
-            await hardhatUSDC.transfer(addr1.address, 1000);
+            await hardhatUSDC.transfer(addr1.address, 1000*10**6);
             const addr1Balance = await hardhatUSDC.balanceOf(addr1.address);
             const ownerBalance = await hardhatUSDC.balanceOf(owner.address);
-            expect(addr1Balance).to.equal(1000);
-            expect(ownerBalance).to.equal(999999000);
+            expect(addr1Balance).to.equal(1000*10**6);
+            expect(ownerBalance).to.equal(2.7*10**13 - 1000*10**6);
 
-            await hardhatUSDC.connect(addr1).transfer(addr2.address, 600);
+            await hardhatUSDC.connect(addr1).transfer(addr2.address, 600*10**6);
             const newAddr1Balance = await hardhatUSDC.balanceOf(addr1.address);
             const addr2Balance = await hardhatUSDC.balanceOf(addr2.address);
-            expect(newAddr1Balance).to.equal(400);
-            expect(addr2Balance).to.equal(600);
+            expect(newAddr1Balance).to.equal(400*10**6);
+            expect(addr2Balance).to.equal(600*10**6);
 
         });
 
         it("Should fail if sender doesn't have enough balance", async function(){
 
-            await expect(hardhatUSDC.transfer(addr1.address,1000000001)).to.be.revertedWith("Insufficient Balance");
+            await expect(hardhatUSDC.connect(addr1).transfer(addr1.address,1000*10**6)).to.be.revertedWith("Insufficient Balance");
 
-            await hardhatUSDC.transfer(addr1.address, 1000);
-            await expect(hardhatUSDC.connect(addr1).transfer(addr2.address, 1002)).to.be.revertedWith("Insufficient Balance");
+            await hardhatUSDC.transfer(addr1.address, 1000*10**6);
+            await expect(hardhatUSDC.connect(addr1).transfer(addr2.address, 1001*10**6)).to.be.revertedWith("Insufficient Balance");
         
         });
 
         it("Should be able to approve USDC to another account", async function(){
             
-            await hardhatUSDC.approve(addr1.address, 1000);
+            await hardhatUSDC.approve(addr1.address, 1000*10**6);
 
             const approvedValue = await hardhatUSDC.allowance(owner.address, addr1.address);
-            expect(approvedValue).to.be.equal(1000);
+            expect(approvedValue).to.be.equal(1000*10**6);
         });
 
         it("Should be able to spend the approved USDC", async function(){
             
-            await hardhatUSDC.approve(addr1.address, 1000);
+            await hardhatUSDC.approve(addr1.address, 1000*10**6);
 
             const approvedValue = await hardhatUSDC.allowance(owner.address, addr1.address);
-            expect(approvedValue).to.be.equal(1000);
+            expect(approvedValue).to.be.equal(1000*10**6);
 
-            await hardhatUSDC.connect(addr1).transferFrom(owner.address, addr2.address, 1000);
+            await hardhatUSDC.connect(addr1).transferFrom(owner.address, addr2.address, 1000*10**6);
             const addr1Balance = await hardhatUSDC.balanceOf(addr1.address);
             const addr2Balance = await hardhatUSDC.balanceOf(addr2.address);
             const ownerBalance = await hardhatUSDC.balanceOf(owner.address);
 
             expect(addr1Balance).to.be.equal(0);
-            expect(addr2Balance).to.be.equal(1000);
-            expect(ownerBalance).to.be.equal(parseInt(await hardhatUSDC.totalSupply())-1000);
+            expect(addr2Balance).to.be.equal(1000*10**6);
+            expect(ownerBalance).to.be.equal(parseInt(await hardhatUSDC.totalSupply())-1000*10**6);
 
         });
 
         it("Should fail if tried to spend more than the approved amount", async function(){
             
-            await hardhatUSDC.approve(addr1.address, 1000);
+            await hardhatUSDC.approve(addr1.address, 1000*10**6);
 
             const approvedValue = await hardhatUSDC.allowance(owner.address, addr1.address);
-            expect(approvedValue).to.be.equal(1000);
+            expect(approvedValue).to.be.equal(1000*10**6);
 
-            await expect(hardhatUSDC.connect(addr1).transferFrom(owner.address, addr2.address, 1001)).to.be.revertedWith("Unapproved tx");
+            await expect(hardhatUSDC.connect(addr1).transferFrom(owner.address, addr2.address, 1001*10**6)).to.be.revertedWith("Unapproved tx");
 
         });
 
@@ -139,7 +139,7 @@ describe("USDC Contract", function(){
 
         it("Should be able to pausse txs", async function(){
             await hardhatUSDC.pause();
-            await expect(hardhatUSDC.transfer(addr1.address, 1000)).to.be.revertedWith("SC is Paused");
+            await expect(hardhatUSDC.transfer(addr1.address, 1000*10**6)).to.be.revertedWith("SC is Paused");
 
         });
 
@@ -150,18 +150,18 @@ describe("USDC Contract", function(){
         it("Should be able to unpause the txs", async function(){
 
             await hardhatUSDC.pause();
-            await expect(hardhatUSDC.transfer(addr1.address, 1000)).to.be.revertedWith("SC is Paused");
+            await expect(hardhatUSDC.transfer(addr1.address, 1000*10**6)).to.be.revertedWith("SC is Paused");
             
             await hardhatUSDC.unPause();
-            await hardhatUSDC.transfer(addr1.address,1000);
+            await hardhatUSDC.transfer(addr1.address,1000*10**6);
             const addr1Balance = await hardhatUSDC.balanceOf(addr1.address);
-            expect(addr1Balance).to.be.equal(1000);
+            expect(addr1Balance).to.be.equal(1000*10**6);
 
         });
         
         it("Should fail if any other account tried to unpause the txs", async function(){
             await hardhatUSDC.pause();
-            await expect(hardhatUSDC.transfer(addr1.address, 1000)).to.be.revertedWith("SC is Paused");
+            await expect(hardhatUSDC.transfer(addr1.address, 1000*10**6)).to.be.revertedWith("SC is Paused");
 
             await expect(hardhatUSDC.connect(addr1).unPause()).to.be.revertedWith("Unauthorized Access");
 
@@ -172,10 +172,10 @@ describe("USDC Contract", function(){
     describe("Mintable", function(){
         it("Should be able to mint more USDC into existence", async function(){
             const totalSupply = await hardhatUSDC.totalSupply();
-            await hardhatUSDC.mintCoins(owner.address, 1000);
+            await hardhatUSDC.mintCoins(owner.address, 1000*10**6);
             const newTotalSupply = await hardhatUSDC.totalSupply();
 
-            expect(newTotalSupply).to.be.equal(parseInt(totalSupply)+1000);
+            expect(newTotalSupply).to.be.equal(parseInt(totalSupply)+1000*10**6);
             expect(await hardhatUSDC.balanceOf(owner.address)).to.be.equal(newTotalSupply);
         });
 

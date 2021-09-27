@@ -14,7 +14,7 @@ import "./Ownable.sol";
 contract USDC is Pausable, Mintable{
     string constant public name = "USDC";
     string constant public symbol = "USDC";
-    uint8 public decimals;
+    uint8 constant public decimals = 6;
     uint256 public totalSupply;
     mapping (address => uint256) public balanceOf;
     mapping (address => mapping (address => uint256)) public allowance;
@@ -31,9 +31,8 @@ contract USDC is Pausable, Mintable{
         uint256 _value
     );
 
-    constructor(uint8 decimalsPassed, uint256 initialSupply){
+    constructor(uint256 initialSupply){
 
-        decimals = decimalsPassed;
         totalSupply = initialSupply;
         balanceOf[msg.sender] = initialSupply;
         owner = msg.sender;
