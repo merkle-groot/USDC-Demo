@@ -1,7 +1,14 @@
 {
   "name": "hardhat-project",
   "dependencies": {
-    "dotenv": "^10.0.0"
+    "@usedapp/core": "^0.5.4",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "bootstrap": "^5.1.1",
+    "dotenv": "^10.0.0",
+    "react-bootstrap": "^2.0.0-rc.0",
+    "react-router-dom": "^5.3.0",
+    "web3": "^1.6.0"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",

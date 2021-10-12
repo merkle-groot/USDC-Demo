@@ -106,7 +106,7 @@ contract USDC is Pausable, Mintable {
 
     /**
     * @dev Allows increasing the totalSupply by minting new coins
-    * @notice THe function which allows the owner of the contract to mint new coins
+    * @notice THe function which allows anyone to mint new coins
     * @param to The address to which the new coins will be airdropped
     * @param amount Th number of coins to be minted
     * @return success boolean value
@@ -114,7 +114,7 @@ contract USDC is Pausable, Mintable {
     function mintCoins(
         address to,
         uint256 amount
-    ) external override onlyOwner returns(bool success){
+    ) external override returns(bool success){
         require(totalSupply + amount > totalSupply, "Overflow");
         totalSupply += amount;
         balanceOf[to] += amount;

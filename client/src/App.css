@@ -1,0 +1,28 @@
+.App {
+	display: flex;
+	flex-direction: column;
+	height:100vh
+}
+
+.HeaderApp{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+}
+
+.CanvasApp{
+	display: flex;
+	flex-grow: 1;
+	height: 100%;
+	
+}	
+
+.UpperNavApp{
+	margin: 2em;
+    display: flex;
+    flex-direction: row;
+	justify-content: center;
+    list-style: none;
+}
+
