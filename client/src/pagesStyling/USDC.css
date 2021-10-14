@@ -4,22 +4,41 @@
     width: 100%;
 }
 
-.ContainerUSDC{
-    /* display: flex;  */
-    /* width: 100%; */
-}
-
 .RowUSDC{
     height: 100%;
 }
-
-
 
 .ColUSDC{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     flex: 1;
+}
+
+.ColUSDC h1{
+    letter-spacing: 0.02em;
+    line-height: 1.5em;
+    font-size:2.5em;
+}
+
+div.list-group-item{
+    font-size: 1.4em !important;
+}
+
+.value{
+    font-size: 0.9em;
+    color: green;
+}
+
+.address{
+    font-size: 0.8em;
+    padding: 1em;
+}
+
+.disconnetButton{
+    margin: 3em;
+    width: 100%;
 }

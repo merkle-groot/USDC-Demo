@@ -3,6 +3,8 @@ import { useContractFunction, useEthers } from '@usedapp/core'
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { USDC, Staker } from '../components/contracts';
@@ -24,18 +26,6 @@ const useTokenContract = () => {
     }, [library]);
 };
 
-const useStakerContract = () => {
-    const { library } = useEthers();
-
-    return useMemo(() => {
-        return new Contract(
-            Staker.address,
-            Staker.abi,
-            library ? library.getSigner() : chainReadProvider
-        );
-    }, [library]);
-};
-
 
 const useTokenInfo = (spenderAddress) => {
     const [balance, setBalance] = useState(BigNumber.from(0));
@@ -43,15 +33,9 @@ const useTokenInfo = (spenderAddress) => {
         loading: false,
         value: BigNumber.from(0),
     });
+
     const tokenContract = useTokenContract();
     const { account } = useEthers();
-
-    const { state: mintState, send: sendMint } = useContractFunction(
-        tokenContract,
-        "freeMint"
-    );
-    const { state: increaseAllowanceState, send: increaseAllowance } =
-        useContractFunction(tokenContract, "increaseAllowance");
 
     const fetchBalance = useCallback(async () => {
         if (!account) return;
@@ -59,136 +43,96 @@ const useTokenInfo = (spenderAddress) => {
         setBalance(userBalance);
     }, [account, tokenContract]);
 
-    // const fetchAllowance = useCallback(async () => {
-    //     if (!account || !spenderAddress) return;
+    const { state: mintState, send: sendMint } = useContractFunction(
+        tokenContract,
+        "mintCoins"
+    );
 
-    //     setAllowance((allowance) => ({
-    //         ...allowance,
-    //         loading: true,
-    //     }));
-    //     const userAllowance = await tokenContract.allowance(
-    //         account,
-    //         spenderAddress
-    //     );
-    //     setAllowance({
-    //         value: userAllowance,
-    //         loading: false,
-    //     });
-    // }, [account, spenderAddress, tokenContract]);
+    const { state: increaseAllowanceState, send: increaseAllowance } =
+        useContractFunction(tokenContract, "approve");
 
-    // const freeMint = useCallback(async () => {
-    //     sendMint(utils.parseEther("1337"));
-    // }, [sendMint]);
+    const fetchAllowance = useCallback(async () => {
+        if (!account || !spenderAddress) return;
+
+        setAllowance((allowance) => ({
+            ...allowance,
+            loading: true,
+        }));
+        const userAllowance = await tokenContract.allowance(
+            account,
+            spenderAddress
+        );
+        setAllowance({
+            value: userAllowance,
+            loading: false,
+        });
+    }, [account, spenderAddress, tokenContract]);
+
+
+    const freeMint = useCallback(async () => {
+        sendMint(account, utils.parseUnits("1000"));
+    }, [account, sendMint]);
 
     useEffect(() => {
         fetchBalance();
     }, [fetchBalance]);
 
-    // useEffect(() => {
-    //     if (mintState.status === "Success") {
-    //         fetchBalance();
-    //     }
-    // }, [mintState, fetchBalance]);
+    useEffect(() => {
+        if (mintState)
+            if (mintState.status === "Success") {
+                fetchBalance();
+            }
+    }, [mintState, fetchBalance]);
 
-    // useEffect(() => {
-    //     fetchAllowance();
-    // }, [fetchAllowance]);
+    useEffect(() => {
+        fetchAllowance();
+    }, [fetchAllowance]);
 
-    // useEffect(() => {
-    //     if (increaseAllowanceState.status === "Success") {
-    //         fetchAllowance();
-    //     }
-    // }, [fetchAllowance, increaseAllowanceState]);
+    useEffect(() => {
+        if (increaseAllowanceState)
+            if (increaseAllowanceState.status === "Success") {
+                fetchAllowance();
+            }
+    }, [fetchAllowance, increaseAllowanceState]);
 
     return {
         balance,
-        // allowance,
-        // freeMint,
-        // increaseAllowance,
-        // fetchBalance,
-        // fetchAllowance,
+        allowance,
+        freeMint,
+        increaseAllowance,
+        fetchBalance,
+        fetchAllowance
     };
 };
-
-// const useStakerInfo =(
-//     fetchBalance,
-//     fetchAllowance
-// ) => {
-//     const { account } = useEthers();
-//     const stakerContract = useStakerContract();
-//     const [depositedAmount, setDepositedAmount] = useState({
-//         deposit: BigNumber.from(0),
-//         treasury: BigNumber.from(0),
-//     });
-//     const { state: depositState, send: sendDeposit } = useContractFunction(
-//         stakerContract,
-//         "depositTokens"
-//     );
-//     const { state: withdrawState, send: sendWithdraw } = useContractFunction(
-//         stakerContract,
-//         "withdrawTokens"
-//     );
-
-//     const fetchDeposit = useCallback(async () => {
-//         if (!account) return;
-//         const userDeposited = await stakerContract.depositedAmount(account);
-//         const treasuryAmount = await stakerContract.treasuryAmount();
-//         setDepositedAmount({ deposit: userDeposited, treasury: treasuryAmount });
-//     }, [account, stakerContract]);
-
-//     const withdrawDeposit = useCallback(async () => {
-//         sendWithdraw(depositedAmount.deposit);
-//     }, [sendWithdraw, depositedAmount]);
-
-//     useEffect(() => {
-//         fetchDeposit();
-//     }, [fetchDeposit]);
-
-//     useEffect(() => {
-//         if (depositState.status === "Success") {
-//             fetchDeposit();
-//             fetchBalance();
-//             fetchAllowance();
-//         }
-//     }, [depositState, fetchDeposit, fetchAllowance, fetchBalance]);
-
-//     useEffect(() => {
-//         if (withdrawState.status === "Success") {
-//             fetchDeposit();
-//             fetchBalance();
-//         }
-//     }, [withdrawState, fetchBalance, fetchDeposit]);
-
-//     return {
-//         depositedAmount,
-//         sendDeposit,
-//         withdrawDeposit,
-//     };
-// };
 
 
 
 const USDCApp = () => {
-    const { activateBrowserWallet, active, account,  deactivate,} = useEthers();
+    const { activateBrowserWallet, active, account, deactivate, } = useEthers();
+
+    const [allowanceInput, setAllowanceInput] = useState(50);
+
     const {
-        balance
+        balance,
+        allowance,
+        freeMint,
+        increaseAllowance,
     } = useTokenInfo(Staker.address);
-    // const { depositedAmount, sendDeposit, withdrawDeposit } = useStakerInfo(
-    //     fetchBalance,
-    //     fetchAllowance
-    // );
 
-
-    const connectDisconnet = async () => {
+    const connectDisconnet = () => {
         if (!active)
             activateBrowserWallet();
         else
             deactivate();
     }
 
-    useEffect(() => {
-        console.log(chainReadProvider);
-    });
+    const mintCoins = (toAccount) => {
+       freeMint();
+    }
+
+    const changeAllowance = () => {
+        increaseAllowance(Staker.address, allowanceInput*10**6);
+     }
 
     return (
         <div className="USDCApp">
@@ -200,13 +144,33 @@ const USDCApp = () => {
                     <Col className="ColUSDC">
 
                         <div>
-                            {
-                                <ListGroup >
-                                    <ListGroup.Item>Address: {account ? account : 'Not Connected'}</ListGroup.Item>
-                                    <ListGroup.Item>Ether Balance: {balance?utils.formatEther(balance):'Not Connected'}</ListGroup.Item>
-                                </ListGroup>
+                            {active &&
+                                <div>
+                                    <ListGroup >
+                                        <ListGroup.Item>Address:  <span className="value address"> {account ? account : 'Not Connected'} </span> </ListGroup.Item>
+                                        <ListGroup.Item>USDC Balance: <span className="value"> {balance ? utils.formatUnits(balance, 6) : 'Not Connected'} USDC</span> </ListGroup.Item>
+                                        <ListGroup.Item>Allowance for Staking Contract: <span className="value"> {allowance ? utils.formatUnits(allowance.value, 6) : 'Not Connected'} USDC</span> </ListGroup.Item>
+                                        <InputGroup className="mb-3">
+                                            <FormControl
+                                                placeholder="Approve funds to be spent by Staking Contract"
+                                                aria-label="Allowance"
+                                                aria-describedby="approve"
+                                                value={allowanceInput}
+                                                onChange={(e)=> setAllowanceInput(parseInt(e.target.value))}
+                                                type="number"
+                                                min="0.1"
+                                            />
+                                            <Button variant="warning" id="Increase Allowance" onClick={()=> changeAllowance()}>
+                                                Approve!
+                                            </Button>
+                                        </InputGroup>
+                                        <Button variant="success" id="Mint" onClick={()=> mintCoins(account)}>Mint 1000 USDC tokens</Button>
+                                    </ListGroup>
+                                        
+                                </div>
+                                
                             }
-                            <div>
+                            <div className="disconnectButton">
                                 <Button onClick={() => connectDisconnet()}>{active ? 'Disconnect Wallet' : 'Connect Wallet'}</Button>
                             </div>
                             {/* <Button onClick={()=>getBlockNo()}>Block</Button> */}

@@ -9,7 +9,7 @@ async function main() {
     Staking = await ethers.getContractFactory("StakingContract");
 
     [owner, addr1] = await ethers.getSigners();
-    hardhatUSDC = await USDC.deploy(2.7*10**13);
+    hardhatUSDC = await USDC.connect(addr1).deploy(2.7*10**13);
     hardhatStaking = await Staking.deploy(hardhatUSDC.address, addr1.address);
   
     console.log("USDC Address: " ,hardhatUSDC.address);

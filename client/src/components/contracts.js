@@ -4,11 +4,11 @@ import StakerArtifact from "../artifacts/contracts/StakingContract.sol/StakingCo
 import USDCArtifact from "../artifacts/contracts/USDC.sol/USDC.json";
 
 const usdcAddresses = {
-  [ChainId.Hardhat]: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  [ChainId.Hardhat]: "0x8464135c8F25Da09e49BC8782676a84730C318bC",
 };
 
 const stakerAddresses = {
-  [ChainId.Hardhat]: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  [ChainId.Hardhat]: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
 };
 
 let USDC = {
