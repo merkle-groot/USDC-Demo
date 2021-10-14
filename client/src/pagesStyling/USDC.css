@@ -38,7 +38,9 @@ div.list-group-item{
     padding: 1em;
 }
 
-.disconnetButton{
+/* .disconnetButton{
+    align-self: flex-end;
+    justify-self: flex-end;
     margin: 3em;
     width: 100%;
-}
+} */

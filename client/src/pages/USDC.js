@@ -12,7 +12,8 @@ import { BigNumber, utils, providers, Contract } from "ethers";
 import "../pagesStyling/USDC.css";
 
 
-const chainReadProvider = new providers.StaticJsonRpcProvider('http://localhost:8545');
+
+const chainReadProvider = new providers.StaticJsonRpcProvider(process.env.REACT_APP_BASE_GOERLIURL);
 
 const useTokenContract = () => {
     const { library } = useEthers();
@@ -70,7 +71,7 @@ const useTokenInfo = (spenderAddress) => {
 
 
     const freeMint = useCallback(async () => {
-        sendMint(account, utils.parseUnits("1000"));
+        sendMint(account, utils.parseUnits("1000",6));
     }, [account, sendMint]);
 
     useEffect(() => {
@@ -108,7 +109,7 @@ const useTokenInfo = (spenderAddress) => {
 
 
 const USDCApp = () => {
-    const { activateBrowserWallet, active, account, deactivate, } = useEthers();
+    const { activateBrowserWallet, active, account, deactivate, chainId} = useEthers();
 
     const [allowanceInput, setAllowanceInput] = useState(50);
 
@@ -124,16 +125,32 @@ const USDCApp = () => {
             activateBrowserWallet();
         else
             deactivate();
+        console.log(chainId);
     }
 
     const mintCoins = (toAccount) => {
        freeMint();
+       console.log(chainId);
     }
 
     const changeAllowance = () => {
         increaseAllowance(Staker.address, allowanceInput*10**6);
-     }
+    }
 
+    const requestNetworkChange = async() => {
+        await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x5' }], 
+        });
+    }
+
+    useEffect(()=>{
+        if(chainId!==5)
+         requestNetworkChange();
+    },[chainId])
+
+ 
+    
     return (
         <div className="USDCApp">
             <Container className="ContainerUSDC" fluid="md">
@@ -142,44 +159,41 @@ const USDCApp = () => {
                         <h1 style={{ whiteSpace: 'pre-line' }}>{'USDC\nFunctions'}</h1>
                     </Col>
                     <Col className="ColUSDC">
-
-                        <div>
-                            {active &&
-                                <div>
-                                    <ListGroup >
-                                        <ListGroup.Item>Address:  <span className="value address"> {account ? account : 'Not Connected'} </span> </ListGroup.Item>
-                                        <ListGroup.Item>USDC Balance: <span className="value"> {balance ? utils.formatUnits(balance, 6) : 'Not Connected'} USDC</span> </ListGroup.Item>
-                                        <ListGroup.Item>Allowance for Staking Contract: <span className="value"> {allowance ? utils.formatUnits(allowance.value, 6) : 'Not Connected'} USDC</span> </ListGroup.Item>
-                                        <InputGroup className="mb-3">
-                                            <FormControl
-                                                placeholder="Approve funds to be spent by Staking Contract"
-                                                aria-label="Allowance"
-                                                aria-describedby="approve"
-                                                value={allowanceInput}
-                                                onChange={(e)=> setAllowanceInput(parseInt(e.target.value))}
-                                                type="number"
-                                                min="0.1"
-                                            />
-                                            <Button variant="warning" id="Increase Allowance" onClick={()=> changeAllowance()}>
-                                                Approve!
-                                            </Button>
-                                        </InputGroup>
-                                        <Button variant="success" id="Mint" onClick={()=> mintCoins(account)}>Mint 1000 USDC tokens</Button>
-                                    </ListGroup>
-                                        
-                                </div>
-                                
-                            }
+                        {active &&
+                            <div>
+                                <ListGroup >
+                                    <ListGroup.Item>Address:  <span className="value address"> {account ? account : 'Not Connected'} </span> </ListGroup.Item>
+                                    <ListGroup.Item>USDC Balance: <span className="value"> {balance ? utils.formatUnits(balance, 6) : 'Not Connected'} USDC</span> </ListGroup.Item>
+                                    <ListGroup.Item>Allowance for Staking Contract: <span className="value"> {allowance ? utils.formatUnits(allowance.value, 6) : 'Not Connected'} USDC</span> </ListGroup.Item>
+                                    <InputGroup className="mb-3">
+                                        <FormControl
+                                            placeholder="Approve funds to be spent by Staking Contract"
+                                            aria-label="Allowance"
+                                            aria-describedby="approve"
+                                            value={allowanceInput}
+                                            onChange={(e)=> setAllowanceInput(parseInt(e.target.value))}
+                                            type="number"
+                                            min="0.000001"
+                                        />
+                                        <Button variant="warning" id="Increase Allowance" onClick={()=> changeAllowance()}>
+                                            Approve!
+                                        </Button>
+                                    </InputGroup>
+                                    <Button variant="success" id="Mint" onClick={()=> mintCoins(account)}>Mint 1000 USDC tokens</Button>
+                                </ListGroup>
+                                    
+                            </div>
+                            
+                        }
+                        {!active &&
                             <div className="disconnectButton">
                                 <Button onClick={() => connectDisconnet()}>{active ? 'Disconnect Wallet' : 'Connect Wallet'}</Button>
                             </div>
-                            {/* <Button onClick={()=>getBlockNo()}>Block</Button> */}
-                        </div>
+                        }                       
                     </Col>
                 </Row>
             </Container>
         </div>
     )
 }
-
 export default USDCApp;

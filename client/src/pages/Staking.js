@@ -12,7 +12,7 @@ import { useContractFunction, useEthers } from '@usedapp/core'
 import "../pagesStyling/USDC.css";
 import { formatUnits } from '@ethersproject/units';
 
-const chainReadProvider = new providers.StaticJsonRpcProvider('http://localhost:8545');
+const chainReadProvider = new providers.StaticJsonRpcProvider(process.env.REACT_APP_BASE_GOERLIURL);
 
 
 const useTokenContract = () => {
@@ -141,12 +141,12 @@ const useStakerInfo = (
         "unStake"
     );
     const getTime = (unformattedTime) => {
-        const unixTimeStamp = formatUnits(unformattedTime, 0);
+        const unixTimeStamp = parseInt(formatUnits(unformattedTime, 0));
+        if(unixTimeStamp === 0)
+            return 0;
         console.log(unixTimeStamp);
-        var date = new Date(unixTimeStamp).toLocaleDateString("en-US");
-        var time = new Date(unixTimeStamp).toLocaleTimeString('en-US');
-        console.log(date, time);
-        return time+date;
+        var time = new Date(unixTimeStamp).toLocaleTimeString();
+        return time;
     }
 
     const fetchDeposit = useCallback(async () => {
@@ -191,7 +191,7 @@ const useStakerInfo = (
 };
 
 const Staking = () => {
-    const { activateBrowserWallet,active, deactivate, account, } = useEthers();
+    const { activateBrowserWallet,active, deactivate, account, chainId} = useEthers();
     const [stakedInput, setStakedInput] = useState(0);
     const {
         balance,
@@ -202,7 +202,7 @@ const Staking = () => {
         fetchAllowance,
     } = useTokenInfo(Staker.address);
 
-    const { depositedAmount, sendDeposit, withdrawDeposit, treasuryFees } = useStakerInfo(
+    const { depositedAmount, sendDeposit, withdrawDeposit, treasuryFees, } = useStakerInfo(
         fetchBalance,
         fetchAllowance
     );
@@ -227,11 +227,20 @@ const Staking = () => {
         // TODO: Handle Errors
         withdrawDeposit();
     }
-   
+
+    const requestNetworkChange = async() => {
+        await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x5' }], 
+        });
+    }
 
     useEffect(()=>{
-        console.log(depositedAmount);
-    },[depositedAmount])
+        if(chainId!==5)
+         requestNetworkChange();
+    },[chainId])
+
+
     return (
         <div className="USDCApp">
             <Container className="ContainerUSDC" fluid="md">
@@ -246,7 +255,7 @@ const Staking = () => {
                                     <ListGroup.Item>Address: <span className="value address"> {account?account:'Not Connected'} </span> </ListGroup.Item>
                                     <ListGroup.Item>Staked Amount: <span className="value"> {depositedAmount?formatUnits(depositedAmount.deposit, 6):'Not Connected'} USDC</span></ListGroup.Item>
                                     <ListGroup.Item>Allowance for Staking Contract: <span className="value"> {allowance ? utils.formatUnits(allowance.value, 6) : 'Not Connected'} USDC</span> </ListGroup.Item>
-                                    <ListGroup.Item>Time staked at: <span className="value"> {depositedAmount?depositedAmount.treasury:'Not Connect'} </span> </ListGroup.Item>
+                                    <ListGroup.Item>Time staked at: <span className="value"> {depositedAmount?depositedAmount.treasury:'Not Connect'} UTC </span> </ListGroup.Item>
                                     <ListGroup.Item>Total Fees Collected: <span className="value"> {treasuryFees?treasuryFees:'Not Connect'} USDC</span> </ListGroup.Item>
                                     <InputGroup className="mb-3">
                                             <FormControl
@@ -254,8 +263,9 @@ const Staking = () => {
                                                 aria-label="StakeInput"
                                                 aria-describedby="stake"
                                                 value={stakedInput}
-                                                onChange={(e)=> setStakedInput(parseInt(e.target.value))}
+                                                onChange={(e)=> setStakedInput(e.target.value)}
                                                 type="number"
+                                                min="0.000001"
                                             />
                                             <Button variant="success" id="StakeInputButton" onClick={()=> stake()}>
                                                 Stake!
@@ -268,9 +278,11 @@ const Staking = () => {
                                 </ListGroup>
                             </div>
                         }
-                        <div className="disconnetButton">
-                            <Button onClick={() => connectDisconnet()}>{active?'Disconnect Wallet':'Connect Wallet'}</Button>
-                        </div>
+                        {!active &&
+                            <div className="disconnetButton">
+                                <Button onClick={() => connectDisconnet()}>{active?'Disconnect Wallet':'Connect Wallet'}</Button>
+                            </div>
+                        }
                         
                     </Col>
                 </Row>

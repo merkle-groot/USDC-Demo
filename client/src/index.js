@@ -7,10 +7,10 @@ import { ChainId, DAppProvider } from '@usedapp/core'
 
 const config= {
   readOnlyUrls: {
-    [ChainId.Hardhat]: 'http://localhost:8545',
+    [ChainId.Goerli]: process.env.REACT_APP_BASE_GOERLIURL,
   },
   supportedChains: [
-    ChainId.Hardhat,
+    ChainId.Goerli,
   ]
 }
 
