@@ -1,6 +1,5 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const { getOriginalNode } = require("typescript");
 
 describe("USDC Contract", function () {
   let USDC;
