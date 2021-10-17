@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.0;
+pragma solidity ^0.8.0;
 
-import "./interfaces/IERC20.sol";
-import "./libraries/SafeERC20.sol";
-import "./Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
 * @dev Allows staking of ERC-20 tokens
 * @author merkle-groot
 * @notice Stake ERC-20 tokens for a small fee
 */
-contract StakingContract is Ownable{
+contract StakingContract is AccessControl{
+    bytes32 public constant TREASURY_ROLE = keccak256("TREASURY_ROLE");
+
     using SafeERC20 for IERC20;
 
     struct StakeDetails{
@@ -47,11 +49,13 @@ contract StakingContract is Ownable{
     */
     constructor(
         IERC20 tokenAddress,
+        address treasuryOwner,
         address treasuryAddress
     ){
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(TREASURY_ROLE, treasuryOwner);
         erc20Address = tokenAddress;
-        owner = msg.sender;
-        changeTreasuryAddress(treasuryAddress);
+        treasury = treasuryAddress;
     }
 
     /**
@@ -66,7 +70,7 @@ contract StakingContract is Ownable{
         // console.log("The fee in this case is: ", feesCollected);
         
         staked[msg.sender] = StakeDetails({stakedAmount: amount - fee, stakedTimestamp: block.timestamp});
-        StakedEvent(msg.sender, amount, block.timestamp);
+        emit StakedEvent(msg.sender, amount, block.timestamp);
     }
 
     /**
@@ -82,7 +86,7 @@ contract StakingContract is Ownable{
 
         stakeDetails.stakedAmount -= amount;
         erc20Address.safeTransfer(msg.sender, amount);
-        UnstakedEvent(msg.sender, amount, block.timestamp); 
+        emit UnstakedEvent(msg.sender, amount, block.timestamp); 
     }
 
     /**
@@ -90,10 +94,10 @@ contract StakingContract is Ownable{
     * @notice Can only be called by the owner of the contract
     * @param newTreasuryAddress The new address to which the collected fees will be spent
      */
-    function changeTreasuryAddress(address newTreasuryAddress) public onlyOwner{
+    function changeTreasuryAddress(address newTreasuryAddress) public onlyRole(TREASURY_ROLE){
         require(newTreasuryAddress != address(0), "Non zero address required");
         treasury = newTreasuryAddress;
-        TreasuryAddressChanged(newTreasuryAddress);
+        emit TreasuryAddressChanged(newTreasuryAddress);
     }
 
 
@@ -101,7 +105,7 @@ contract StakingContract is Ownable{
     * @dev Function that allows withdrawing the collected fees to the treasury address
     * @notice Can only be callaed the by the owner
     */
-    function collectFees() external onlyOwner{
+    function collectFees() external onlyRole(TREASURY_ROLE){
         erc20Address.safeTransfer(treasury, feesCollected);
     }
 }

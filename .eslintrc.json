@@ -1,0 +1,24 @@
+{
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "plugins": [
+        "import",
+        "simple-import-sort"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": 7
+    },
+    "rules": {},
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

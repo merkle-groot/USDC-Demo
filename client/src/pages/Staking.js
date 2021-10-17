@@ -44,13 +44,6 @@ const useTokenInfo = (spenderAddress) => {
         setBalance(userBalance);
     }, [account, tokenContract]);
 
-    const { state: mintState, send: sendMint } = useContractFunction(
-        tokenContract,
-        "mintCoins"
-    );
-
-    const { state: increaseAllowanceState, send: increaseAllowance } =
-        useContractFunction(tokenContract, "approve");
 
     const fetchAllowance = useCallback(async () => {
         if (!account || !spenderAddress) return;
@@ -69,38 +62,13 @@ const useTokenInfo = (spenderAddress) => {
         });
     }, [account, spenderAddress, tokenContract]);
 
-
-    const freeMint = useCallback(async () => {
-        sendMint(account, utils.parseUnits("1000"));
-    }, [sendMint, account]);
-
-    useEffect(() => {
-        fetchBalance();
-    }, [fetchBalance]);
-
-    useEffect(() => {
-        if (mintState)
-            if (mintState.status === "Success") {
-                fetchBalance();
-            }
-    }, [mintState, fetchBalance]);
-
     useEffect(() => {
         fetchAllowance();
     }, [fetchAllowance]);
 
-    useEffect(() => {
-        if (increaseAllowanceState)
-            if (increaseAllowanceState.status === "Success") {
-                fetchAllowance();
-            }
-    }, [fetchAllowance, increaseAllowanceState]);
-
     return {
         balance,
         allowance,
-        freeMint,
-        increaseAllowance,
         fetchBalance,
         fetchAllowance
     };
@@ -195,9 +163,7 @@ const Staking = () => {
     const [stakedInput, setStakedInput] = useState(0);
     const {
         balance,
-        freeMint,
         allowance,
-        increaseAllowance,
         fetchBalance,
         fetchAllowance,
     } = useTokenInfo(Staker.address);
@@ -226,6 +192,7 @@ const Staking = () => {
     const unstake = () => {
         // TODO: Handle Errors
         withdrawDeposit();
+        console.log(balance);
     }
 
     const requestNetworkChange = async() => {

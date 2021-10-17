@@ -46,7 +46,7 @@ const useTokenInfo = (spenderAddress) => {
 
     const { state: mintState, send: sendMint } = useContractFunction(
         tokenContract,
-        "mintCoins"
+        "testMint"
     );
 
     const { state: increaseAllowanceState, send: increaseAllowance } =
@@ -71,7 +71,7 @@ const useTokenInfo = (spenderAddress) => {
 
 
     const freeMint = useCallback(async () => {
-        sendMint(account, utils.parseUnits("1000",6));
+        sendMint(account);
     }, [account, sendMint]);
 
     useEffect(() => {
