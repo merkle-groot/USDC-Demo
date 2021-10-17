@@ -1,24 +1,22 @@
 {
     "env": {
         "browser": true,
-        "node": true
+        "commonjs": true,
+        "es2021": true
     },
-    "plugins": [
-        "import",
-        "simple-import-sort"
-    ],
+    "plugins": ["import", "simple-import-sort"],
     "extends": [
-        "eslint:recommended",
-        "plugin:prettier/recommended"
+      "plugin:prettier/recommended"
     ],
     "parserOptions": {
-        "sourceType": "module",
-        "ecmaVersion": 7
+        "ecmaVersion": 12
     },
-    "rules": {},
+    "rules": {
+    },
     "settings": {
         "react": {
-            "version": "detect"
+          "version": "detect"
         }
     }
+    
 }
