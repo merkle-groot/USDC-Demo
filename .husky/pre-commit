@@ -12,7 +12,7 @@ lc=${lines_covered%.*}
 sc=${statements_covered%.*}
 fc=${functions_covered%.*}
 bc=${branches_covered%.*}
-if(([ $lc -ge 55 ] && [ $sc -ge 55 ] && [ $fc -ge 55 ] && [ $bc -ge 55 ] ))
+if(([ $lc -ge 95 ] && [ $sc -ge 95 ] && [ $fc -ge 95 ] && [ $bc -ge 95 ] ))
 then
         echo "Coverage is met"
 else
