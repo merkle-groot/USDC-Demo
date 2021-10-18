@@ -16,15 +16,15 @@ import "../pagesStyling/USDC.css";
 const chainReadProvider = new providers.StaticJsonRpcProvider(process.env.REACT_APP_BASE_GOERLIURL);
 
 const useTokenContract = () => {
-    const { library } = useEthers();
+  const { library } = useEthers();
 
-    return useMemo(() => {
-        return new Contract(
-            USDC.address,
-            USDC.abi,
-            library ? library.getSigner() : chainReadProvider
-        );
-    }, [library]);
+  return useMemo(() => {
+    return new Contract(
+      USDC.address,
+      USDC.abi,
+      library ? library.getSigner() : chainReadProvider
+    );
+  }, [library]);
 };
 
 

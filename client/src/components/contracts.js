@@ -1,6 +1,6 @@
 import { ChainId } from "@usedapp/core";
 
-import StakerArtifact from "../artifacts/contracts/StakingContract.sol/StakingContract.json"
+import StakerArtifact from "../artifacts/contracts/StakingContract.sol/StakingContract.json";
 import USDCArtifact from "../artifacts/contracts/USDC.sol/USDC.json";
 
 const usdcAddresses = {
@@ -21,4 +21,4 @@ let Staker = {
   address: stakerAddresses[ChainId.Goerli],
 };
 
-export {USDC, Staker};
+export { USDC, Staker };

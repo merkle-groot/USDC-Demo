@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/home/punkster21/Projects/USDC-Demo/contracts/interfaces/IERC20.sol": {
-      "lastModificationDate": 1632738857718,
-      "contentHash": "d96617dd14e98af6acec9fe7290db57a",
+    "/home/nganta/ERC20_Demo/USDC-Demo/contracts/interfaces/IERC20.sol": {
+      "lastModificationDate": 1634316327180,
+      "contentHash": "579814e4ea5bb6b6e0f75a21e5c07c71",
       "sourceName": "contracts/interfaces/IERC20.sol",
       "solcConfig": {
         "version": "0.8.0",
@@ -24,6 +24,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -35,9 +38,9 @@
         "IERC20"
       ]
     },
-    "/home/punkster21/Projects/USDC-Demo/contracts/StakingContract.sol": {
-      "lastModificationDate": 1632763480796,
-      "contentHash": "d2220084a0ec49cd3a96767aae03804f",
+    "/home/nganta/ERC20_Demo/USDC-Demo/contracts/StakingContract.sol": {
+      "lastModificationDate": 1634316327180,
+      "contentHash": "7e3370c5494d6d9bf3433bb95b5086e9",
       "sourceName": "contracts/StakingContract.sol",
       "solcConfig": {
         "version": "0.8.0",
@@ -58,6 +61,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -73,9 +79,9 @@
         "StakingContract"
       ]
     },
-    "/home/punkster21/Projects/USDC-Demo/contracts/libraries/SafeERC20.sol": {
-      "lastModificationDate": 1632738856754,
-      "contentHash": "f2a26bf75505d7cead403d2da00dedaf",
+    "/home/nganta/ERC20_Demo/USDC-Demo/contracts/libraries/SafeERC20.sol": {
+      "lastModificationDate": 1634316327180,
+      "contentHash": "02a016ac05c486194cb576ac30f6c329",
       "sourceName": "contracts/libraries/SafeERC20.sol",
       "solcConfig": {
         "version": "0.8.0",
@@ -96,6 +102,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -110,9 +119,9 @@
         "SafeERC20"
       ]
     },
-    "/home/punkster21/Projects/USDC-Demo/contracts/Ownable.sol": {
-      "lastModificationDate": 1632764200515,
-      "contentHash": "d7e6eda4fd71789b46cdc1deae13225f",
+    "/home/nganta/ERC20_Demo/USDC-Demo/contracts/Ownable.sol": {
+      "lastModificationDate": 1634316327180,
+      "contentHash": "0478877c5b1276a8e0cfd81d62aa9abd",
       "sourceName": "contracts/Ownable.sol",
       "solcConfig": {
         "version": "0.8.0",
@@ -133,6 +142,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -144,9 +156,9 @@
         "Ownable"
       ]
     },
-    "/home/punkster21/Projects/USDC-Demo/contracts/libraries/Address.sol": {
-      "lastModificationDate": 1632739029010,
-      "contentHash": "8584320a0d9aaa6ef8b691aa87cbe5bc",
+    "/home/nganta/ERC20_Demo/USDC-Demo/contracts/libraries/Address.sol": {
+      "lastModificationDate": 1634316327180,
+      "contentHash": "b3d81f6fc38ee3317e389e873d11841c",
       "sourceName": "contracts/libraries/Address.sol",
       "solcConfig": {
         "version": "0.8.0",
@@ -167,6 +179,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -178,9 +193,9 @@
         "Address"
       ]
     },
-    "/home/punkster21/Projects/USDC-Demo/contracts/Pausable.sol": {
-      "lastModificationDate": 1632764133776,
-      "contentHash": "89f87886ade2112dc4c8e268b99b3abe",
+    "/home/nganta/ERC20_Demo/USDC-Demo/contracts/Pausable.sol": {
+      "lastModificationDate": 1634316327180,
+      "contentHash": "94f8d0a9194479e2a2d5eeaee16c2c18",
       "sourceName": "contracts/Pausable.sol",
       "solcConfig": {
         "version": "0.8.0",
@@ -201,6 +216,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -214,9 +232,9 @@
         "Pausable"
       ]
     },
-    "/home/punkster21/Projects/USDC-Demo/contracts/USDC.sol": {
-      "lastModificationDate": 1633948757340,
-      "contentHash": "5af1c511cb36cb5d625a1b69b34e471b",
+    "/home/nganta/ERC20_Demo/USDC-Demo/contracts/USDC.sol": {
+      "lastModificationDate": 1634316327180,
+      "contentHash": "eec8cf3056e604489d41ea17faf26617",
       "sourceName": "contracts/USDC.sol",
       "solcConfig": {
         "version": "0.8.0",
@@ -237,6 +255,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },
@@ -251,9 +272,9 @@
         "USDC"
       ]
     },
-    "/home/punkster21/Projects/USDC-Demo/contracts/Mintable.sol": {
-      "lastModificationDate": 1632763661112,
-      "contentHash": "4dfb1d84483bf5bb719d51b550518794",
+    "/home/nganta/ERC20_Demo/USDC-Demo/contracts/Mintable.sol": {
+      "lastModificationDate": 1634316327180,
+      "contentHash": "e34ed98781e2028452c1699267eec294",
       "sourceName": "contracts/Mintable.sol",
       "solcConfig": {
         "version": "0.8.0",
@@ -274,6 +295,9 @@
                 "ast"
               ]
             }
+          },
+          "metadata": {
+            "useLiteralContent": false
           }
         }
       },

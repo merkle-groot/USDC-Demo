@@ -6,6 +6,19 @@
     {
       "inputs": [
         {
+          "internalType": "bytes32",
+          "name": "c__0x6d6b7bef",
+          "type": "bytes32"
+        }
+      ],
+      "name": "c_0x6d6b7bef",
+      "outputs": [],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "_to",
           "type": "address"

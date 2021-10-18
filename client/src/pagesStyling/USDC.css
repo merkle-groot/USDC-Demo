@@ -1,7 +1,7 @@
-.USDCApp{
-    display: flex;
-    flex: 1;
-    width: 100%;
+.USDCApp {
+  display: flex;
+  flex: 1;
+  width: 100%;
 }
 
 .RowUSDC{
@@ -44,3 +44,4 @@ div.list-group-item{
     margin: 3em;
     width: 100%;
 } */
+
