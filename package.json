@@ -14,7 +14,8 @@
     "web3": "^1.6.0"
   },
   "scripts": {
-    "lint": "eslint ./ --fix"
+    "lint": "eslint ./ --fix",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
