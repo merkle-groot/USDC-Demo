@@ -2,9 +2,9 @@ const main = async () => {
   const [deployer] = await ethers.getSigners();
 
   console.log("Deploying contracts with the account:", deployer.address);
-  console.log("Account balance:", (await deployer.getBalance()).toString());;
+  console.log("Account balance:", (await deployer.getBalance()).toString());
 
-	Staking = await ethers.getContractFactory("StakingContractV2");
+  Staking = await ethers.getContractFactory("StakingContractV2");
   [owner, addr1, addr2] = await ethers.getSigners();
   hardhatStaking = await upgrades.deployProxy(Staking, [
     "0x62f46d44751072626601ECC093b213ab9D5B2084",

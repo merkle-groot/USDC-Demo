@@ -1,6 +1,7 @@
 import { ChainId } from "@usedapp/core";
 
-import StakerArtifact from "../artifacts/contracts/StakingContract.sol/StakingContract.json"
+// import ProxyContract from "../artifacts/contracts/ProxyContract.sol/ProxyContract.json";
+import StakerArtifact from "../artifacts/contracts/StakingContractV2.sol/StakingContractV2.json"
 import USDCArtifact from "../artifacts/contracts/USDC.sol/USDC.json";
 
 const usdcAddresses = {
@@ -8,7 +9,7 @@ const usdcAddresses = {
 };
 
 const stakerAddresses = {
-  [ChainId.Rinkeby]: "0x38eF96b4F855090CCC0129386aF50B469e1C1218",
+  [ChainId.Rinkeby]: "0xd290543c298b8203e1fe6f69cb17f512d1d70958",
 };
 
 let USDC = {

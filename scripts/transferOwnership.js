@@ -1,4 +1,4 @@
-const main = async () =>{
+const main = async () => {
   const gnosisSafe = "0x9A878BE768a8Ac461315ec7F3aF9168dcDe922a8";
   console.log("Transferring the ownership of ProxyAdmin");
 
@@ -11,4 +11,4 @@ main()
   .catch((error) => {
     console.error(error);
     process.exit(1);
-});
+  });
