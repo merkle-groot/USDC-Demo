@@ -1,26 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+
 
 /**
 * @dev Allows staking of ERC-20 tokens
 * @author merkle-groot
 * @notice Stake ERC-20 tokens for a small fee
 */
-contract StakingContract is AccessControl{
+contract StakingContract is Initializable, AccessControlUpgradeable{
     bytes32 public constant TREASURY_ROLE = keccak256("TREASURY_ROLE");
 
-    using SafeERC20 for IERC20;
+    using SafeERC20Upgradeable for IERC20Upgradeable;
 
     struct StakeDetails{
         uint256 stakedAmount;
         uint256 stakedTimestamp;
     }
 
-    IERC20 public immutable erc20Address;
+    IERC20Upgradeable public erc20Address;
     mapping(
         address => StakeDetails
     ) public staked;
@@ -40,18 +42,18 @@ contract StakingContract is AccessControl{
     event TreasuryAddressChanged(
         address
     );
-
+    
     /**
-    * @dev Constructor for the contract
-    * @notice Initilize the token,treasury and Owner addresses
+    * @dev Initializer constructor for the contract
+    * @notice Initilize the token, treasury and Owner addresses
     * @param tokenAddress Address of the required token
     * @param treasuryAddress Address to which the collected fees are to be sent
     */
-    constructor(
-        IERC20 tokenAddress,
+    function initialize(
+        IERC20Upgradeable tokenAddress,
         address treasuryOwner,
         address treasuryAddress
-    ){
+    ) public initializer {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(TREASURY_ROLE, treasuryOwner);
         erc20Address = tokenAddress;
@@ -63,7 +65,7 @@ contract StakingContract is AccessControl{
     * @notice 0.002% of the staked coins is collected as fees by the protocol
     * @param amount The number of tokens to be staked
     */
-    function stake(uint256 amount) external{
+    function stake(uint256 amount) virtual external{
         erc20Address.safeTransferFrom(msg.sender, address(this), amount);
         uint256 fee = (amount*2)/1000;
         feesCollected += fee;
@@ -106,6 +108,7 @@ contract StakingContract is AccessControl{
     * @notice Can only be callaed the by the owner
     */
     function collectFees() external onlyRole(TREASURY_ROLE){
+        feesCollected = 0;
         erc20Address.safeTransfer(treasury, feesCollected);
     }
 }

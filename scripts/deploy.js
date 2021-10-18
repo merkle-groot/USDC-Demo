@@ -9,11 +9,12 @@ const main = async () => {
 
   [owner, addr1, addr2] = await ethers.getSigners();
   hardhatUSDC = await USDC.deploy(2.1 * 10 ** 7, addr1.address, addr2.address);
-  hardhatStaking = await Staking.deploy(
+  hardhatStaking = await upgrades.deployProxy(Staking, [
     hardhatUSDC.address,
     addr1.address,
-    addr2.address
-  );
+    addr2.address,
+  ]);
+  await hardhatStaking.deployed();
 
   console.log("USDC Address: ", hardhatUSDC.address);
   console.log("Staking Address ", hardhatStaking.address);

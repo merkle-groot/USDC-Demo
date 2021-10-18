@@ -25,11 +25,13 @@ describe("Staking", function () {
       addr1.address,
       addr2.address
     );
-    hardhatStaking = await Staking.deploy(
+
+    hardhatStaking = await upgrades.deployProxy(Staking, [
       hardhatUSDC.address,
       addr1.address,
-      addr2.address
-    );
+      addr2.address,
+    ]);
+    await hardhatStaking.deployed();
     treasuryRole = await hardhatStaking.TREASURY_ROLE();
     defaultAdmin = await hardhatUSDC.DEFAULT_ADMIN_ROLE();
 

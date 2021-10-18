@@ -198,7 +198,7 @@ const Staking = () => {
     const requestNetworkChange = async() => {
         await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x5' }], 
+            params: [{ chainId: '0x4' }], 
         });
     }
 

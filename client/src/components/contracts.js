@@ -4,21 +4,21 @@ import StakerArtifact from "../artifacts/contracts/StakingContract.sol/StakingCo
 import USDCArtifact from "../artifacts/contracts/USDC.sol/USDC.json";
 
 const usdcAddresses = {
-  [ChainId.Goerli]: "0xd34B958820C1F0042A6615aF9d532F578Bb98013",
+  [ChainId.Rinkeby]: "0x62f46d44751072626601ECC093b213ab9D5B2084",
 };
 
 const stakerAddresses = {
-  [ChainId.Goerli]: "0x617DBeC08f1EC03DC662190e34888692Ee38b3Bb",
+  [ChainId.Rinkeby]: "0x38eF96b4F855090CCC0129386aF50B469e1C1218",
 };
 
 let USDC = {
   abi: USDCArtifact.abi,
-  address: usdcAddresses[ChainId.Goerli],
+  address: usdcAddresses[ChainId.Rinkeby],
 };
 
 let Staker = {
   abi: StakerArtifact.abi,
-  address: stakerAddresses[ChainId.Goerli],
+  address: stakerAddresses[ChainId.Rinkeby],
 };
 
 export {USDC, Staker};

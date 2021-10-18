@@ -7,10 +7,10 @@ import { ChainId, DAppProvider } from '@usedapp/core'
 
 const config= {
   readOnlyUrls: {
-    [ChainId.Goerli]: process.env.REACT_APP_BASE_GOERLIURL,
+    [ChainId.Rinkeby]: process.env.REACT_APP_BASE_GOERLIURL,
   },
   supportedChains: [
-    ChainId.Goerli,
+    ChainId.Rinkeby,
   ]
 }
 
