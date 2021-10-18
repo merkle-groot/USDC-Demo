@@ -1,26 +1,21 @@
 {
-    "env": {
-      "browser": true,
-      "node": true,
-      "es6": true,
-      "commonjs": true
-    },
-    "plugins": ["import", "simple-import-sort"],
-    "extends": [
-      "airbnb-base"
-    ],
-    "parserOptions": {
-      "ecmaFeatures": {
-        "arrowFunctions": true,
-        "defaultParams": true
-      },
-      "ecmaVersion": 7
-    },
-    "rules": {
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "plugins": ["import", "simple-import-sort"],
+  "extends": [
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 12
+  },
+  "rules": {
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
     }
   }
+}
