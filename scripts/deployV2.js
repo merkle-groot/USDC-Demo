@@ -5,14 +5,19 @@ const main = async () => {
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
   Staking = await ethers.getContractFactory("StakingContractV2");
+  USDC = await ethers.getContractFactory("USDC");
+
   [owner, addr1, addr2] = await ethers.getSigners();
+  hardhatUSDC = await USDC.deploy(2.1 * 10 ** 7, addr1.address, addr2.address);
+
   hardhatStaking = await upgrades.deployProxy(Staking, [
-    "0x62f46d44751072626601ECC093b213ab9D5B2084",
+    hardhatUSDC.address,
     addr1.address,
     addr2.address,
   ]);
   await hardhatStaking.deployed();
 
+  console.log("USDC Address: ", hardhatUSDC.address);
   console.log("Staking Address V2 ", hardhatStaking.address);
 };
 
